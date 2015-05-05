@@ -1,3 +1,3 @@
-import trainer
-import data
+__all__ = ['main']
+
 from trainer import main
