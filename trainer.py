@@ -1,14 +1,14 @@
 from __future__ import print_function, division
-import data
-import sys
-import random
-import time
+
 import collections
+import data
 import inspect
+import random
+import sys
+import time
 
 if sys.version_info.major < 3:
     input = raw_input
-
 
 MEMORY = collections.deque(maxlen=10)
 
@@ -44,10 +44,11 @@ def doc_quiz(quiz_type):
             raise
         time.sleep(.3)
         if inp == name:
-             print('Very good.  Next!')
+            print('Very good.  Next!')
         else:
-             print('No, it is ' + name)
+            print('No, it is ' + name)
         time.sleep(.5)
+
 
 def main():
     try:
