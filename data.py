@@ -14,7 +14,7 @@ if not isinstance(__builtins__, dict):
 DATA = {}
 DATA['functions'] = dict((k, inspect.getdoc(v)) for k, v in __builtins__.items() 
                                     if k[0].islower() 
-                                       and k not in ('copyright', 'credits'))
+                                       and k not in ('copyright', 'credits', 'license'))
 
 DATA['datatypes'] = dict(('{0}.{1}'.format(k, attr), inspect.getdoc(method))  
                            for k, v in __builtins__.items()
