@@ -9,7 +9,7 @@ spelling and capitalization to qualify as correct.
 
 There are currently five classes of names:
 
-* keywords: pulled from the `keyword` module and `pydo_data.topics`. 
+* keywords: pulled from the `keyword` module and `pydoc_data.topics`. 
 * functions: builtin functions, essentially everything in `builtins` that
   starts with a lowercase letter (excluding `copyright` and `credits`)
 * datatypes: perhaps a poor name. These are methods on the builtin objects.
