@@ -1,0 +1,4 @@
+
+
+import trainer
+trainer.main()
