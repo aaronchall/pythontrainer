@@ -6,7 +6,7 @@ class DataTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.data = data.data
+        cls.data = data.DATA
 
     def test_data(self):
         self.assertIsInstance(self.data, dict)
@@ -28,6 +28,22 @@ class DataTest(unittest.TestCase):
         kw = self.data['keywords']
         self.assertIn('with', kw)
         self.assertIn('if', kw)
+
+    def test_modules(self):
+        mods = self.data['modules']
+        self.assertIn('os', mods)
+        #self.assertIn('os.path', mods)
+        self.assertIn('string', mods)
+
+    def test_datatypes(self):
+        datatypes = self.data['datatypes']
+        #self.assertIn('str.maketrans', datatypes) # not in Python 2
+        self.assertIn('str.lower', datatypes)
+
+    def test_exceptions(self):
+        exceptions = self.data['exceptions']
+        self.assertIn('BaseException', exceptions)
+        self.assertIn('OSError', exceptions)
         
         
 
