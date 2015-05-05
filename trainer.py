@@ -58,7 +58,7 @@ def main():
             if inp.lower() not in data.DATA:
                 print('I did not understand that')
             else:
-                doc_quiz(inp)
+                doc_quiz(inp.lower())
     except (KeyboardInterrupt, EOFError):
         quit(0)
 
