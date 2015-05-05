@@ -1,3 +1,3 @@
 import trainer
 import data
-fromt trainer import main
+from trainer import main
