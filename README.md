@@ -9,7 +9,7 @@ spelling and capitalization to qualify as correct.
 
 There are currently five classes of names:
 
-* keywords: pulled from the `keyword` module and `pydo_data.topics`. 
+* keywords: pulled from the `keyword` module and `pydoc_data.topics`. 
 * functions: builtin functions, essentially everything in `builtins` that
   starts with a lowercase letter (excluding `copyright` and `credits`)
 * datatypes: perhaps a poor name. These are methods on the builtin objects.
@@ -21,6 +21,17 @@ There are currently five classes of names:
 So, to add to this, we could add in the names inside modules, 
 and we could try to inspect the operators that work on builtins 
 and names in other modules.
+
+## Usage:
+
+If you have git, in theory, you're up and running with:
+
+```
+git clone https://github.com/aaronchall/pythontrainer
+python pythontrainer
+```
+
+Ctrl-C (keyboard interrupt) to back out and exit. Please let me know if that doesn't work. Tweet at me at @aaronchall or @PythonNYC
 
 ## Constraints:
 
