@@ -50,13 +50,12 @@ def doc_quiz(quiz_type):
         time.sleep(.5)
 
 
-def smart_replace(string, name):
+def smart_replace(string, name, _pattern=re.compile(r'\b%s\b' % name)):
     """Looks for any spaces before and after the string we are trying to
     replace to avoid situations where "The string" is replaced with 
     "The ***ring" for docstrign of str
     """
-    pattern = re.compile(r'\b%s\b' % name)
-    return pattern.sub('*' * len(name), string)
+    return _pattern.sub('*' * len(name), string)
 
 
 def main():
