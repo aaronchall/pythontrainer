@@ -10,12 +10,6 @@ class BackportTestCase(unittest.TestCase):
     """
     MAX_LENGTH = 80
 
-    def __init__(self, *args, **kwargs):
-        super(BackportTestCase, self).__init__(*args, **kwargs)
-        if sys.version_info < (2, 7):
-            self.assertIn = self.assert_in
-            self.assertIsInstance = self.assert_is_instance
-
     def safe_repr(self, obj, short=False):
         """
         Backport of unittest.util.safe_repr from python 2.7 for 2.6
@@ -29,7 +23,7 @@ class BackportTestCase(unittest.TestCase):
                 return result
             return result[:self.MAX_LENGTH] + ' [truncated]...'
 
-    def assert_in(self, member, container, msg=None):
+    def assertIn(self, member, container, msg=None):
         """
         Just like self.assertTrue(a in b), but with a nicer default message.
 
@@ -41,7 +35,7 @@ class BackportTestCase(unittest.TestCase):
                                                    self.safe_repr(container))
             self.fail(self._formatMessage(msg, standard_msg))
 
-    def assert_is_instance(self, obj, cls, msg=None):
+    def assertIsInstance(self, obj, cls, msg=None):
         """
         Same as self.assertTrue(isinstance(obj, cls)), with a nicer
         default message.
@@ -54,7 +48,13 @@ class BackportTestCase(unittest.TestCase):
             self.fail(self._formatMessage(msg, standard_msg))
 
 
-class DataTest(BackportTestCase):
+if sys.version_info < (2, 7):
+    BaseTestCase = BackportTestCase
+else:
+    BaseTestCase = unittest.TestCase
+
+
+class DataTest(BaseTestCase):
     data = data.DATA
 
     def test_data(self):
