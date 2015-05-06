@@ -6,6 +6,7 @@ import inspect
 import random
 import sys
 import time
+import re
 
 if sys.version_info.major < 3:
     input = raw_input
@@ -31,9 +32,8 @@ def doc_quiz(quiz_type):
             if doc is None:
                 print('skipping {0} because no docs'.format(name))
                 continue
-            hidden_name = '*' * len(name)
-            doc = doc.replace(name, hidden_name)
-            doc = doc.replace(name.capitalize(), hidden_name)
+            doc = smart_replace(doc, name)
+            doc = smart_replace(doc, name.capitalize())
             print('(Ctrl-C to quit)\n\nTo which name '
                   'does this documentation belong?:\n')
             inp = input(doc + '\n\n> ')
@@ -48,6 +48,15 @@ def doc_quiz(quiz_type):
         else:
             print('No, it is ' + name)
         time.sleep(.5)
+
+
+def smart_replace(string, name):
+    """Looks for any spaces before and after the string we are trying to
+    replace to avoid situations where "The string" is replaced with 
+    "The ***ring" for docstrign of str
+    """
+    pattern = re.compile(r'(^|\b)%s($|\b)' % name)
+    return pattern.sub('*' * len(name), string)
 
 
 def main():
