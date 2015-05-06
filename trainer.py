@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! usr/bin/env python 
 from __future__ import print_function, division
 
 import collections
@@ -7,8 +7,9 @@ import inspect
 import random
 import sys
 import time
+import re
 
-if sys.version_info.major < 3:
+if sys.version_info < (3, ):
     input = raw_input
 
 MEMORY = collections.deque(maxlen=10)
@@ -32,9 +33,15 @@ def doc_quiz(quiz_type):
             if doc is None:
                 print('skipping {0} because no docs'.format(name))
                 continue
-            hidden_name = '*' * len(name)
-            doc = doc.replace(name, hidden_name)
-            doc = doc.replace(name.capitalize(), hidden_name)
+            doc = smart_replace(doc, name)
+            doc = smart_replace(doc, name.capitalize())
+
+            # Handle the case of `list.extend` when the doc says `L.extend`
+            #   then make it `L.*****`
+            if '.' in name:
+                _, _, last_part = name.partition('.')
+                doc = smart_replace(doc, last_part)
+
             print('(Ctrl-C to quit)\n\nTo which name '
                   'does this documentation belong?:\n')
             inp = input(doc + '\n\n> ')
@@ -49,6 +56,15 @@ def doc_quiz(quiz_type):
         else:
             print('No, it is ' + name)
         time.sleep(.5)
+
+
+def smart_replace(string, name):
+    """Looks for any spaces before and after the string we are trying to
+    replace to avoid situations where "The string" is replaced with
+    "The ***ring" for docstrign of str
+    """
+    pattern = re.compile(r'\b%s\b' % name)
+    return pattern.sub('*' * len(name), string)
 
 
 def main():

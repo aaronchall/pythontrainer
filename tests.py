@@ -1,11 +1,62 @@
+#! usr/bin/env python
 import data
 import unittest
+import sys
 
 
-class DataTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.data = data.DATA
+class BackportTestCase(unittest.TestCase):
+    """
+    Helper class to provide backport support for `assertIn` and `assertIsInstance`
+    for python 2.6
+    """
+    MAX_LENGTH = 80
+
+    def safe_repr(self, obj, short=False):
+        """
+        Backport of unittest.util.safe_repr from python 2.7 for 2.6
+        https://github.com/python/cpython/blob/cc14aa98797433709230c5522261b0e42d9fb284/Lib/unittest/util.py
+        """
+        try:
+            result = repr(obj)
+        except Exception:
+            result = object.__repr__(obj)
+            if not short or len(result) < self.MAX_LENGTH:
+                return result
+            return result[:self.MAX_LENGTH] + ' [truncated]...'
+
+    def assertIn(self, member, container, msg=None):
+        """
+        Just like self.assertTrue(a in b), but with a nicer default message.
+
+        Backported from python 2.7 for python 2.6
+        https://github.com/python/cpython/blob/cc14aa98797433709230c5522261b0e42d9fb284/Lib/unittest/case.py
+        """
+        if member not in container:
+            standard_msg = '%s not found in %s' % (self.safe_repr(member),
+                                                   self.safe_repr(container))
+            self.fail(self._formatMessage(msg, standard_msg))
+
+    def assertIsInstance(self, obj, cls, msg=None):
+        """
+        Same as self.assertTrue(isinstance(obj, cls)), with a nicer
+        default message.
+
+        backported from python 2.7 for python 2.6
+        https://github.com/python/cpython/blob/cc14aa98797433709230c5522261b0e42d9fb284/Lib/unittest/case.py
+        """
+        if not isinstance(obj, cls):
+            standard_msg = '%s is not an instance of %r' % (self.safe_repr(obj), cls)
+            self.fail(self._formatMessage(msg, standard_msg))
+
+
+if sys.version_info < (2, 7):
+    BaseTestCase = BackportTestCase
+else:
+    BaseTestCase = unittest.TestCase
+
+
+class DataTest(BaseTestCase):
+    data = data.DATA
 
     def test_data(self):
         self.assertIsInstance(self.data, dict)
