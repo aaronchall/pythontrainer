@@ -34,6 +34,13 @@ def doc_quiz(quiz_type):
                 continue
             doc = smart_replace(doc, name)
             doc = smart_replace(doc, name.capitalize())
+
+            # Handle the case of `list.extend` when the doc says `L.extend`
+            #   then make it `L.*****`
+            if '.' in name:
+                _, _, last_part = name.partition('.')
+                doc = smart_replace(doc, last_part)
+
             print('(Ctrl-C to quit)\n\nTo which name '
                   'does this documentation belong?:\n')
             inp = input(doc + '\n\n> ')
@@ -52,7 +59,7 @@ def doc_quiz(quiz_type):
 
 def smart_replace(string, name):
     """Looks for any spaces before and after the string we are trying to
-    replace to avoid situations where "The string" is replaced with 
+    replace to avoid situations where "The string" is replaced with
     "The ***ring" for docstrign of str
     """
     pattern = re.compile(r'\b%s\b' % name)
