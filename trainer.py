@@ -7,7 +7,7 @@ import random
 import sys
 import time
 
-if sys.version_info.major < 3:
+if sys.version_info < (3, ):
     input = raw_input
 
 MEMORY = collections.deque(maxlen=10)
