@@ -55,7 +55,7 @@ def smart_replace(string, name):
     replace to avoid situations where "The string" is replaced with 
     "The ***ring" for docstrign of str
     """
-    pattern = re.compile(r'(\b)%s(\b)' % name)
+    pattern = re.compile(r'\b%s\b' % name)
     return pattern.sub('*' * len(name), string)
 
 
