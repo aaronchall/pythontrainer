@@ -1,3 +1,4 @@
+#! usr/bin/env python
 import data
 import unittest
 import sys
