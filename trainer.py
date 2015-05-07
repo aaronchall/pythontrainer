@@ -28,6 +28,8 @@ def doc_quiz(quiz_type):
                 doc = inspect.getdoc(mod)
             elif quiz_type == 'keywords':
                 doc = data.DATA['keywords'][name]
+            elif quiz_type == 'datatypes':
+                doc = data.DATA['datatypes'][name]
             else:
                 doc = inspect.getdoc(eval(name))
             if doc is None:
@@ -51,11 +53,26 @@ def doc_quiz(quiz_type):
             print(error)
             raise
         time.sleep(.3)
-        if inp == name:
+        correct, answer = check_answer(quiz_type, inp, name)
+        if correct:
             print('Very good.  Next!')
         else:
-            print('No, it is ' + name)
+            print('No, it is ' + answer)
         time.sleep(.5)
+
+def check_answer(quiz_type, inp, name):
+    """Checks the input against the answer. Returns a tuple with first item
+    being True/False for correct/wrong answer while second item is string
+    containing correct answer
+    When quiz_type=datatype, we format the answers to fit the * we
+    replaced the answer with. E.g. for str.split, the question
+    contained S.***** , logically, ***** will be the answer (i.e. split).
+    """
+    if quiz_type == 'datatypes':
+        answer = name.split('.').pop()
+    else:
+        answer = name
+    return (inp == answer, answer)
 
 
 def smart_replace(string, name):
