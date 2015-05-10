@@ -3,6 +3,7 @@ import data
 import unittest
 import sys
 
+from trainer import check_answer
 
 class BackportTestCase(unittest.TestCase):
     """
@@ -95,6 +96,21 @@ class DataTest(BaseTestCase):
         self.assertIn('BaseException', exceptions)
         self.assertIn('OSError', exceptions)
 
+class TrainerTest(BaseTestCase):
+
+    def test_check_answer_returns_tuple(self):
+        res = check_answer('modules', 'some_answer', 'answer')
+        self.assertIsInstance(res, tuple)
+
+    def test_check_answer_returns_true_for_correct_answer(self):
+        check, answer = check_answer('modules', 'split', 'split')
+        self.assertTrue(check)
+        self.assertEqual(answer, 'split')
+
+    def test_check_answer_for_datatypes(self):
+        check, answer = check_answer('datatypes', 'split', 'S.split')
+        self.assertTrue(check)
+        self.assertEqual(answer, 'split')
 
 def main():
     unittest.main()
